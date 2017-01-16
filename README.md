@@ -1,2 +1,2 @@
-# bedrock-card-displayer
-Bedrock displayer for card-based credentials
+# bedrock-angular-card-displayer
+Bedrock AngularJS displayer for card-based credentials

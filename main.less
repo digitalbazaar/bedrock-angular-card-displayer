@@ -1,0 +1,244 @@
+@import 'https://fonts.googleapis.com/css?family=Alegreya:400i';
+@import 'https://fonts.googleapis.com/css?family=Kotta+One';
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:800';
+@import 'https://fonts.googleapis.com/css?family=Roboto';
+@import 'https://fonts.googleapis.com/css?family=Roboto+Condensed';
+
+/* ISO/IEC 7810 ID-1 cards are 85.60 x 53.98 mm (3.370 x 2.125 in) with
+  rounded corners with a radius of 2.88–3.48 mm. Dimensions here are based
+  on 300px width for mobile devices (an iPhone 5 screen width is 320px, which
+  leaves room for up to 10px of margin). */
+@br-card-id-1-width-mm: 85.60;
+@br-card-id-1-height-mm: 53.98;
+@br-card-id-1-width: 300px;
+@br-card-id-1-height: (
+  (@br-card-id-1-height-mm / @br-card-id-1-width-mm) *
+  @br-card-id-1-width);
+/*@br-card-id-1-height: percentage(
+ (@br-card-id-1-height-mm / @br-card-id-1-width-mm));*/
+
+/* 1 inch = 25.4 mm */
+@br-card-id-1-inch: percentage((25.4 / @br-card-id-1-width-mm));
+
+/* Average of 2.88mm and 3.48mm, as a percentage of width, height. */
+@br-card-id-1-radius-mm: ((2.88 + 3.48) / 2);
+@br-card-id-1-radius-width: percentage(
+  (@br-card-id-1-radius-mm / @br-card-id-1-width-mm));
+@br-card-id-1-radius-height: percentage(
+  (@br-card-id-1-radius-mm / @br-card-id-1-height-mm));
+
+@br-card-header-height: 17.5%;
+
+/* `width` can be dynamically set to scale card, but `font-size` must also be
+  set to 1/10th of `width`. Note: Presently, `height` must also be set to
+  53.98/85.6 times `width`. Some CSS-magic w/padding-top percentages could
+  potentially remove this additional calculation in the future. */
+.br-card-id-1 {
+  width: @br-card-id-1-width;
+  height: @br-card-id-1-height;
+  background-color: #eee;
+  border-radius: @br-card-id-1-radius-width ~'/'
+    @br-card-id-1-radius-height;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+  border: 1px solid #d0d0d0;
+  margin-bottom: 10px;
+  text-align: left;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-size: (@br-card-id-1-width / 100);
+}
+.br-drivers-license-header {
+  height: @br-card-header-height;
+  background: rgba(144, 144, 253, 0.25) url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVQYV2NkQAIBARONN2zIPwsSQmczwgTwKQJpZoTpRjYZmQ2zAa4QJoDNKSDbUBSCBGAKQRphfLDVyBx09yK7m6CJMJMJuhHkFNJ8jewObEEEkwcAY1xkNzh0M2MAAAAASUVORK5CYII=') repeat;
+  border-bottom: 2px solid #8080ed;
+}
+.br-drivers-license-header-col-1 {
+  width: @br-card-id-1-inch;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+  display: inline-block;
+  font-family: 'Alegreya', serif;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 8.75em;
+  text-shadow: 1px 1px 1px #756ce5;
+  -webkit-font-smoothing: antialiased;
+  padding-top: 1px;
+  color: #9090fd;
+}
+.br-drivers-license-header-col-2 {
+  width: (100% - @br-card-id-1-inch);
+  height: 100%;
+  display: inline-block;
+  float: right;
+}
+.br-drivers-license-header-col-2-row-1 {
+  width: 100%;
+  height: 26%;
+  text-align: center;
+  margin-left: 2%;
+  padding-top: 1px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 2.75em;
+  color: #8484a7;
+}
+.br-drivers-license-header-col-2-row-2 {
+  width: 100%;
+  height: 74%;
+  margin-left: 8%;
+  padding-top: 1px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 6.5em;
+  font-weight: bold;
+  color: #9090fd;
+  text-shadow: 1px 1px 1px #756ce5;
+  -webkit-font-smoothing: antialiased;
+}
+.br-scale-text-wide {
+  display: inline-block;
+  -webkit-transform:scale(1.5, 1.0);
+  -moz-transform:scale(1.5, 1.0);
+  -ms-transform:scale(1.5, 1.0);
+  -o-transform:scale(1.5, 1.0);
+  transform:scale(1.5, 1.0);
+}
+.br-drivers-license-body {
+  width: 100%;
+  height: (100% - @br-card-header-height);
+  background: rgba(255, 246, 184, 0.25); /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover,  #eee 0%, rgba(255, 246, 184, 0.1) 42%, rgba(255, 246, 184, 0.15) 58%, rgba(255, 246, 184, 0.25) 100%); /* FF3.6+ */
+  background: -webkit-radial-gradient(center, ellipse cover, #eee 0%, rgba(255, 246, 184, 0.1) 42%, rgba(255, 246, 184, 0.15) 58%, rgba(255, 246, 184, 0.25) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, #eee 0%, rgba(255, 246, 184, 0.1) 42%, rgba(255, 246, 184, 0.15) 58%, rgba(255, 246, 184, 0.25) 100%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, #eee 0%, rgba(255, 246, 184, 0.1) 42%, rgba(255, 246, 184, 0.15) 58%, rgba(255, 246, 184, 0.25) 100%); /* IE10+ */
+  background: radial-gradient(ellipse at center,  #eee 0%, rgba(255, 246, 184, 0.1) 42%, rgba(255, 246, 184, 0.15) 58%, rgba(255, 246, 184, 0.25) 100%); /* W3C */
+}
+.br-drivers-license-body-separator {
+  width: 100%;
+  margin-top: 1px;
+  border-bottom: 1px dotted #9090fd;
+}
+.br-drivers-license-body-col-1 {
+  width: @br-card-id-1-inch;
+  display: inline-block;
+  float: left;
+}
+.br-drivers-license-picture {
+  height: 64%;
+}
+.br-drivers-license-picture > img {
+  width: 100%;
+  height: auto;
+  margin-top: 2px;
+  padding: 1px;
+}
+.br-drivers-license-document-discriminator {
+  color: black;
+  text-align: center;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: bold;
+  font-size: 2em;
+  padding: 15% 0 15% 0;
+}
+.br-drivers-license-body-col-2 {
+  width: (100% - @br-card-id-1-inch);
+  display: inline-block;
+  padding-left: 2px;
+  margin-top: 1px;
+}
+dl.br-drivers-license-attr {
+  margin-bottom: 3.5%;
+}
+dl.br-drivers-license-attr > dt {
+  font-family: 'Kotta One', serif;
+  font-size: 2em;
+  color: #555;
+}
+dl.br-drivers-license-attr > dd {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 2.75em;
+  color: #111;
+}
+.br-drivers-license-body-grid {
+  height: 100%;
+  width: 100%;
+}
+.br-drivers-license-body-grid-col {
+  width: @br-card-id-1-inch;
+  display: inline-block;
+}
+
+.br-credential-card-header {
+  color: black;
+  height: @br-card-header-height;
+  padding-top: 1%;
+  background-color: rgba(144, 167, 253, 0.25);
+  border-bottom: 2px solid #809ded;
+  font-family: 'Roboto', sans-serif;
+  font-size: 6em;
+  font-weight: bold;
+  color: #4786e4;
+  text-shadow: 1px 1px 1px #2f5a9a;
+  -webkit-font-smoothing: antialiased;
+}
+.br-credential-card-body {
+  width: 100%;
+  height: (100% - @br-card-header-height);
+  background-color: rgba(184, 219, 255, 0.1);
+}
+.br-credential-card-body-col-1 {
+  width: @br-card-id-1-inch;
+  display: inline-block;
+}
+.br-credential-card-body-col-2 {
+  width: (100% - @br-card-id-1-inch);
+  display: inline-block;
+  float: right;
+  padding-top: 4px;
+  padding-left: 2px;
+}
+.br-credential-card-picture {
+  height: 64%;
+}
+.br-credential-card-picture > img {
+  width: 100%;
+  height: auto;
+  margin-top: 2px;
+  padding: 1px;
+}
+dl.br-credential-card-attr {
+  margin-bottom: 3.5%;
+}
+dl.br-credential-card-attr > dt {
+  font-family: 'Kotta One', serif;
+  font-size: 2em;
+  color: #555;
+}
+dl.br-credential-card-attr > dd {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 2.75em;
+  color: #111;
+}
+.br-passport-row-1-col-1 {
+  display: inline-block;
+  vertical-align: top;
+}
+.br-passport-row-1-col-2 {
+  display: inline-block;
+  vertical-align: top;
+}
+.br-passport-row-1-col-3 {
+  width: @br-card-id-1-inch;
+  display: inline-block;
+  float: right;
+  vertical-align: top;
+}
+.br-passport-row-1-col-3 > img {
+  width: 100%;
+  height: auto;
+}
+.br-passport-row-2 {
+  width: 100%;
+}

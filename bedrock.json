@@ -1,0 +1,4 @@
+{
+  "config": "./test/protractor/config.js",
+  "dependencies": {}
+}
