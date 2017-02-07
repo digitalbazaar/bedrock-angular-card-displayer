@@ -5,8 +5,9 @@
  */
 define([
   'angular',
-  './motor-vehicle-license-credential-displayer',
-  './credential-card-displayer'
+  './card-displayer-service',
+  './credential-card-displayer',
+  './motor-vehicle-license-credential-displayer'
 ], function(angular) {
 
 'use strict';

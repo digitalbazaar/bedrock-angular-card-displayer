@@ -10,7 +10,6 @@ define(['jsonld'], function(jsonld) {
 function register(module) {
   module.component('brMotorVehicleCredentialDisplayer', {
     bindings: {
-      // FIXME: don't need all of these?
       model: '<brModel',
       library: '<?brLibrary',
       options: '<brOptions'
@@ -26,7 +25,7 @@ function register(module) {
 var DISPLAY_CONTEXT = 'https://w3id.org/identity/v1';
 
 /* @ngInject */
-function Ctrl($scope) {
+function Ctrl($scope, brCardDisplayerService) {
   var self = this;
 
   self.$onChanges = function(changes) {
@@ -38,7 +37,13 @@ function Ctrl($scope) {
           $scope.$apply();
         });
     }
+    if(changes.options && changes.options.currentValue.displayer &&
+      typeof changes.options.currentValue.displayer.style === 'object') {
+      self.cardStyle = brCardDisplayerService.computeCardStyle(
+        changes.options.currentValue.displayer.style);
+    }
   };
+
   self.schemaFor = function(id) {
     if(id in self.library.properties) {
       return self.library.properties[id];
