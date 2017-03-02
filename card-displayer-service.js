@@ -1,7 +1,7 @@
 /*!
  * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
  */
-define([], function() {
+define(['angular'], function(angular) {
 
 'use strict';
 
@@ -46,7 +46,6 @@ function factory() {
 
     // TODO: need to be able to support different backgrounds for card header
     // vs. card body
-
     if(options.background && typeof options.background === 'object') {
       angular.extend(style, service.computeBackground(options.background));
     }
