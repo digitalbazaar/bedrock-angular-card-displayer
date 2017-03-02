@@ -39,8 +39,16 @@ function Ctrl($scope, brCardDisplayerService) {
     }
     if(changes.options && changes.options.currentValue.displayer &&
       typeof changes.options.currentValue.displayer.style === 'object') {
-      self.cardStyle = brCardDisplayerService.computeCardStyle(
-        changes.options.currentValue.displayer.style);
+      // FIXME: remove me
+      var style = angular.extend({
+        background: {
+          radialGradient: true
+        }
+      }, changes.options.currentValue.displayer.style);
+      // self.cardStyle = brCardDisplayerService.computeCardStyle(
+      //   changes.options.currentValue.displayer.style);
+      self.cardStyle = brCardDisplayerService.computeCardStyle(style);
+      console.log('card style', self.cardStyle);
     }
   };
   self.schemaFor = function(id) {

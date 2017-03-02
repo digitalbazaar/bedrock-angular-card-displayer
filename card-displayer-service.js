@@ -14,7 +14,7 @@ function factory() {
   var service = {};
 
   /**
-   * Computes a CSS style for a ISO/IEC 7810 ID-1 card based on the given
+   * Computes the CSS style for a ISO/IEC 7810 ID-1 card based on the given
    * displayer options.
    *
    * @param type the type of card (default: 'id-1').
@@ -42,6 +42,48 @@ function factory() {
       style.height = (width.value * 53.98/85.60) + width.unit;
       // default CSS is coded based on a 1/100 width:fontsize ratio
       style['font-size'] = (width.value * 1/100) + width.unit;
+    }
+
+    // TODO: need to be able to support different backgrounds for card header
+    // vs. card body
+
+    if(options.background && typeof options.background === 'object') {
+      angular.extend(style, service.computeBackground(options.background));
+    }
+
+    return style;
+  };
+
+  /**
+   * Computes the CSS style for an element's background.
+   *
+   * @param options the options to use:
+   *          [radialGradient] true for a default radial gradient.
+   */
+  service.computeBackground = function(options) {
+    options = options || {};
+
+    var style = {};
+
+    var radialGradient = null;
+    if(options.radialGradient === true) {
+      // create default radial gradient
+      /*radialGradient = 'radial-gradient(' +
+        'ellipse farthest-corner at 0% 0%, ' +
+        'transparent 0%, #FFF 70%, transparent 95%)';*/
+      radialGradient = 'radial-gradient(' +
+        'ellipse at center, #fff 0%, transparent 80%)';
+    }
+    if(options.color) {
+      style['background-color'] = options.color;
+    }
+    if(options.image) {
+      style['background-image'] = 'url("' + options.image + '")';
+      if(radialGradient) {
+        style['background-image'] += ', ' + radialGradient;
+      }
+    } else if(radialGradient) {
+      style['background-image'] = radialGradient;
     }
 
     return style;

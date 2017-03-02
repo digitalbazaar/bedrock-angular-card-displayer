@@ -27,6 +27,17 @@
 @br-card-id-1-radius-height: percentage(
   (@br-card-id-1-radius-mm / @br-card-id-1-height-mm));
 
+@br-card-id-1-card-border-size-mm: 0.6;
+@br-card-id-1-card-border-top: percentage(
+  (@br-card-id-1-card-border-size-mm / @br-card-id-1-height-mm));
+@br-card-id-1-card-border-left: percentage(
+  (@br-card-id-1-card-border-size-mm / @br-card-id-1-width-mm));
+
+@br-card-id-1-card-border-radius-width: (
+  @br-card-id-1-radius-width - @br-card-id-1-card-border-left);
+@br-card-id-1-card-border-radius-height: (
+  @br-card-id-1-radius-height - @br-card-id-1-card-border-top);
+
 @br-card-header-height: 17.5%;
 
 /* `width` can be dynamically set to scale card, but `font-size` must also be
@@ -34,6 +45,7 @@
   53.98/85.6 times `width`. Some CSS-magic w/padding-top percentages could
   potentially remove this additional calculation in the future. */
 .br-card-id-1 {
+  position: relative;
   width: @br-card-id-1-width;
   height: @br-card-id-1-height;
   background-color: #eee;
@@ -41,12 +53,27 @@
     @br-card-id-1-radius-height;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
   margin: 4px;
-  border: 1px solid #d0d0d0;
+  /*border: 1px solid #d0d0d0;*/
   text-align: left;
   box-sizing: border-box;
   overflow: hidden;
   font-size: (@br-card-id-1-width / 100);
 }
+/* card border */
+.br-card-id-1:before {
+  position: absolute;
+  content: '';
+  top: @br-card-id-1-card-border-top;
+  bottom: @br-card-id-1-card-border-top;
+  left: @br-card-id-1-card-border-left;
+  right: @br-card-id-1-card-border-left;
+  border-radius: @br-card-id-1-card-border-radius-width ~'/'
+    @br-card-id-1-card-border-radius-height;
+  /* dark shadow permeates outward, light shadow permeats inward creating
+    an edge effect */
+  box-shadow: 0 0 100px 1px rgba(0, 0, 0, 0.20), inset 0 0 2px 1px rgba(255, 255, 255, 0.25);
+}
+
 .br-drivers-license-header {
   height: @br-card-header-height;
   background: rgba(144, 144, 253, 0.25) url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVQYV2NkQAIBARONN2zIPwsSQmczwgTwKQJpZoTpRjYZmQ2zAa4QJoDNKSDbUBSCBGAKQRphfLDVyBx09yK7m6CJMJMJuhHkFNJ8jewObEEEkwcAY1xkNzh0M2MAAAAASUVORK5CYII=') repeat;
