@@ -64,25 +64,44 @@ function factory() {
 
     var style = {};
 
-    var radialGradient = null;
-    if(options.radialGradient === true) {
-      // create default radial gradient
-      /*radialGradient = 'radial-gradient(' +
-        'ellipse farthest-corner at 0% 0%, ' +
-        'transparent 0%, #FFF 70%, transparent 95%)';*/
-      radialGradient = 'radial-gradient(' +
-        'ellipse at center, #fff 0%, transparent 80%)';
-    }
+    var backgroundImages = [];
+
     if(options.color) {
       style['background-color'] = options.color;
     }
+
     if(options.image) {
-      style['background-image'] = 'url("' + options.image + '")';
-      if(radialGradient) {
-        style['background-image'] += ', ' + radialGradient;
-      }
-    } else if(radialGradient) {
-      style['background-image'] = radialGradient;
+      backgroundImages.push('url("' + options.image + '")');
+    }
+
+    var radialGradient = null;
+    if(options.radialGradient === true) {
+      // create default radial gradient
+      radialGradient = 'radial-gradient(' +
+        'circle at -25% -25%, ' +
+        'rgba(255, 255, 255, 0.75) 0%, ' +
+        'transparent 70%, ' +
+        'rgba(0, 0, 0, 0.2) 90%)';
+      /*radialGradient = 'radial-gradient(' +
+        'ellipse at center, #fff 0%, transparent 80%)';*/
+    }
+    if(radialGradient) {
+      backgroundImages.push(radialGradient);
+    }
+
+    var linearGradient = null;
+    if(options.linearGradient === true) {
+      // create default linear gradient
+      linearGradient = 'linear-gradient(' +
+        'to bottom right, ' +
+        'rgba(255, 255, 255, 0.5) 0%, ' +
+        'transparent 40%, ' +
+        'rgba(0, 0, 0, 0.2) 80%)';
+      backgroundImages.push(linearGradient);
+    }
+
+    if(backgroundImages.length > 0) {
+      style['background-image'] = backgroundImages.join(', ');
     }
 
     return style;
