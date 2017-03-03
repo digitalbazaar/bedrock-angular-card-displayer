@@ -7,6 +7,7 @@ define([
   'angular',
   './card-displayer-service',
   './credential-card-displayer',
+  './loyalty-card-credential-displayer',
   './motor-vehicle-license-credential-displayer'
 ], function(angular) {
 
