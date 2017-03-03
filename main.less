@@ -290,13 +290,24 @@ dl.br-credential-card-attr > dd {
 .br-loyalty-card-header {
   flex: 0 0 auto;
   padding-top: 1%;
+  text-align: center;
 }
 .br-loyalty-card-body {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+}
+.br-loyalty-card-body > img {
+  flex: 0 1 auto;
+  height: 100%;
 }
 .br-loyalty-card-footer {
   flex: 0 0 auto;
   padding-bottom: 1%;
+  text-align: center;
 }
 .br-loyalty-card-text {
   font-family: 'Roboto', sans-serif;
@@ -306,15 +317,7 @@ dl.br-credential-card-attr > dd {
   text-shadow: 1px 1px 1px #333;
   -webkit-font-smoothing: antialiased;
 }
-.br-loyalty-card-picture {
-  height: 64%;
-}
-.br-loyalty-card-picture > img {
-  width: 100%;
-  height: auto;
-  margin-top: 2px;
-  padding: 1px;
-}
+
 dl.br-loyalty-card-attr {
   margin-bottom: 3.5%;
 }
