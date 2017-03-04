@@ -109,7 +109,9 @@ function Ctrl($scope, brCardDisplayerService) {
         delete style['background-size'];
       }
       if(documentType.documentBackgroundColor) {
-        style.color = documentType.documentBackgroundColor;
+        styleOptions.background.color = documentType.documentBackgroundColor;
+      } else {
+        delete styleOptions.background.color;
       }
 
       return credential;
