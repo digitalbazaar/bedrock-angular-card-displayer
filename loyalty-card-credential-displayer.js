@@ -35,8 +35,9 @@ var DISPLAY_FRAME = {
 /* @ngInject */
 function Ctrl($scope, brCardDisplayerService) {
   var self = this;
-  // card style exposed to view
+  // styles exposed to view
   self.cardStyle = {};
+  self.textStyle = {};
 
   // internal vars for tracking style changes
   var style = {};
@@ -73,6 +74,7 @@ function Ctrl($scope, brCardDisplayerService) {
           self.cardStyle = brCardDisplayerService.computeCardStyle(
             angular.merge({}, styleOptions, self.options.displayer.style));
           angular.extend(self.cardStyle, style);
+          updateTextStyle();
           $scope.$apply();
         });
     }
@@ -82,6 +84,7 @@ function Ctrl($scope, brCardDisplayerService) {
         angular.merge(
           {}, styleOptions, changes.options.currentValue.displayer.style));
       angular.extend(self.cardStyle, style);
+      updateTextStyle();
     }
   };
 
@@ -141,6 +144,22 @@ function Ctrl($scope, brCardDisplayerService) {
     // unsupported
     console.error('Unsupported documentType format.');
     return null;
+  }
+
+  function updateTextStyle() {
+    var hex =
+      self.credential.claim.document.documentType.documentForegroundColor;
+    var rgb = brCardDisplayerService.hexToRgb(hex);
+    var rgbaLight = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.25)';
+    var rgbaDark = 'rgba(0,0,0,0.5)';
+    self.textStyle = {
+      color: hex,
+      'text-shadow': [
+        '-1px 0px 1px ' + rgbaLight,
+        '0px -1px 1px ' + rgbaLight,
+        '1px 0px 1px ' + rgbaDark,
+        '0px 1px 1px ' + rgbaDark].join(',')
+    };
   }
 }
 
