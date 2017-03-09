@@ -178,7 +178,7 @@ function Ctrl($scope, brCardDisplayerService) {
       self.credential.claim.document.documentType.documentForegroundColor;
     var rgb = brCardDisplayerService.hexToRgb(hex);
     var rgbaLight = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.25)';
-    var rgbaDark = 'rgba(0,0,0,0.5)';
+    var rgbaDark = 'rgba(0,0,0,0.25)';
     self.textStyle = {
       color: hex,
       'text-shadow': [
