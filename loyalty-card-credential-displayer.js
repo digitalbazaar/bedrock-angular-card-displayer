@@ -37,15 +37,25 @@ function Ctrl($scope, brCardDisplayerService) {
   var self = this;
   // styles exposed to view
   self.cardStyle = {};
+  self.containerStyle = {};
+  self.containerClass = {
+    'br-card-id-1-border': true,
+    'br-card-id-1-radial-gradient': true
+  };
   self.textStyle = {};
 
   // internal vars for tracking style changes
   var style = {};
   var styleOptions = {
     background: {
-      radialGradient: true
+      radialGradient: false
     }
   };
+
+  // TODO: The code below moves background styles from the main card style
+  // to the container to get certain effects. This is not intuitive and
+  // this code needs some cleanup and general structure for better applying
+  // options like gradients, etc.
 
   self.$onChanges = function(changes) {
     if(changes.model && changes.model.currentValue) {
@@ -74,6 +84,7 @@ function Ctrl($scope, brCardDisplayerService) {
           self.cardStyle = brCardDisplayerService.computeCardStyle(
             angular.merge({}, styleOptions, self.options.displayer.style));
           angular.extend(self.cardStyle, style);
+          moveBackgroundEffectsToContainer();
           updateTextStyle();
           $scope.$apply();
         });
@@ -84,6 +95,7 @@ function Ctrl($scope, brCardDisplayerService) {
         angular.merge(
           {}, styleOptions, changes.options.currentValue.displayer.style));
       angular.extend(self.cardStyle, style);
+      moveBackgroundEffectsToContainer();
       updateTextStyle();
     }
   };
@@ -144,6 +156,21 @@ function Ctrl($scope, brCardDisplayerService) {
     // unsupported
     console.error('Unsupported documentType format.');
     return null;
+  }
+
+  function moveBackgroundEffectsToContainer() {
+    self.containerStyle = {};
+    if('background-image' in self.cardStyle) {
+      self.containerStyle['background-image'] =
+        self.cardStyle['background-image'];
+      self.containerStyle['background-repeat'] =
+        self.cardStyle['background-repeat'];
+      self.containerStyle['background-size'] =
+        self.cardStyle['background-size'];
+      delete self.cardStyle['background-image'];
+      delete self.cardStyle['background-repeat'];
+      delete self.cardStyle['background-size'];
+    }
   }
 
   function updateTextStyle() {

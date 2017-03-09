@@ -60,7 +60,7 @@
   font-size: (@br-card-id-1-width / 100);
 }
 /* card border */
-.br-card-id-1:before {
+.br-card-id-1-border:before {
   position: absolute;
   content: '';
   top: @br-card-id-1-card-border-top;
@@ -78,6 +78,20 @@
     -30px -30px 100px 1px rgba(255, 255, 255, 0.5),
     /* bright inward shadow creates inner edge basis */
     inset 0 0 2px 1px rgba(255, 255, 255, 0.25);
+}
+/* radial gradient */
+.br-card-id-1-radial-gradient:after {
+	position: absolute;
+  content: '';
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-image: radial-gradient(
+	  circle at -25% -25%,
+	  rgba(255, 255, 255, 0.74902) 0%,
+	  transparent 70%,
+	  rgba(0, 0, 0, 0.2) 90%);
 }
 
 .br-drivers-license-header {
@@ -292,12 +306,19 @@ dl.br-credential-card-attr > dd {
   flex-direction: column;
   width: 100%;
   height: 100%;
+  /* causes mix-blend-mode to work properly */
+  opacity: 0.99;
+}
+/* card border */
+.br-loyalty-card-container:before {
+  &:extend(.br-card-id-1:before);
 }
 .br-loyalty-card-header {
   flex: 0 0 auto;
   padding-top: 1%;
   padding-bottom: 1%;
   text-align: center;
+  /*mix-blend-mode: overlay;*/
 }
 .br-loyalty-card-body {
   flex: 1 1 auto;
@@ -306,6 +327,7 @@ dl.br-credential-card-attr > dd {
   height: 100%;
   width: 100%;
   justify-content: center;
+  mix-blend-mode: overlay;
 }
 .br-loyalty-card-body > img {
   flex: 0 1 auto;
@@ -316,6 +338,7 @@ dl.br-credential-card-attr > dd {
   padding-top: 1%;
   padding-bottom: 3%;
   text-align: center;
+  /*mix-blend-mode: overlay;*/
 }
 .br-loyalty-card-text {
   font-family: 'Roboto', sans-serif;
