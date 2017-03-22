@@ -39,9 +39,9 @@ function factory() {
       var width = service.parseCssValue(options.width);
       style.width = options.width;
       // id-1 dimensions are 85.60mm x 53.98mm
-      style.height = (width.value * 53.98/85.60) + width.unit;
+      style.height = (width.value * 53.98 / 85.60) + width.unit;
       // default CSS is coded based on a 1/100 width:fontsize ratio
-      style['font-size'] = (width.value * 1/100) + width.unit;
+      style['font-size'] = (width.value * 1 / 100) + width.unit;
     }
 
     // TODO: need to be able to support different backgrounds for card header

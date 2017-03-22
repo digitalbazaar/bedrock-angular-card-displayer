@@ -33,7 +33,7 @@ var DISPLAY_FRAME = {
 };
 
 /* @ngInject */
-function Ctrl($scope, brCardDisplayerService) {
+function Ctrl($q, brCardDisplayerService) {
   var self = this;
   // styles exposed to view
   self.cardStyle = {};
@@ -59,8 +59,8 @@ function Ctrl($scope, brCardDisplayerService) {
 
   self.$onChanges = function(changes) {
     if(changes.model && changes.model.currentValue) {
-      jsonld.promises.frame(
-        changes.model.currentValue.credential, DISPLAY_FRAME)
+      $q.resolve(jsonld.promises.frame(
+        changes.model.currentValue.credential, DISPLAY_FRAME))
         .then(function(framed) {
           var credential = (framed['@graph'] || [])[0] || {};
           if(!credential.claim || typeof credential.claim !== 'object') {
@@ -86,7 +86,6 @@ function Ctrl($scope, brCardDisplayerService) {
           angular.extend(self.cardStyle, style);
           moveBackgroundEffectsToContainer();
           updateTextStyle();
-          $scope.$apply();
         });
     }
     if(changes.options && !changes.options.isFirstChange() &&
@@ -109,10 +108,10 @@ function Ctrl($scope, brCardDisplayerService) {
     }
 
     // fetch documentType by its ID
-    return jsonld.promises.compact(documentTypeId, DISPLAY_CONTEXT, {
+    return $q.resolve(jsonld.promises.compact(documentTypeId, DISPLAY_CONTEXT, {
       expandContext: {base: documentTypeId},
       base: ''
-    }).then(function(documentType) {
+    })).then(function(documentType) {
       credential.claim.document.documentType = documentType;
 
       if(documentType.documentBackgroundImage) {

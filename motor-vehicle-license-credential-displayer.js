@@ -25,16 +25,15 @@ function register(module) {
 var DISPLAY_CONTEXT = 'https://w3id.org/identity/v1';
 
 /* @ngInject */
-function Ctrl($scope, brCardDisplayerService) {
+function Ctrl($q, brCardDisplayerService) {
   var self = this;
 
   self.$onChanges = function(changes) {
     if(changes.model && changes.model.currentValue) {
-      jsonld.promises.compact(
-        changes.model.currentValue.credential, DISPLAY_CONTEXT)
+      $q.resolve(jsonld.promises.compact(
+        changes.model.currentValue.credential, DISPLAY_CONTEXT))
         .then(function(compacted) {
           self.credential = compacted;
-          $scope.$apply();
         });
     }
     if(changes.options && changes.options.currentValue.displayer &&
