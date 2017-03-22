@@ -89,7 +89,8 @@ function Ctrl($scope, brCardDisplayerService) {
           $scope.$apply();
         });
     }
-    if(changes.options && changes.options.currentValue.displayer &&
+    if(changes.options && !changes.options.isFirstChange() &&
+      changes.options.currentValue.displayer &&
       typeof changes.options.currentValue.displayer.style === 'object') {
       self.cardStyle = brCardDisplayerService.computeCardStyle(
         angular.merge(
