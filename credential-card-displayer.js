@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2016-2017 Digital Bazaar, Inc. All rights reserved.
  */
-define(['jsonld'], function(jsonld) {
+define(['lodash', 'jsonld'], function(_, jsonld) {
 
 'use strict';
 
@@ -60,14 +60,11 @@ function Ctrl($q, brCardDisplayerService) {
   };
 
   function getType(credential) {
-    var type = null;
-    for(var i = 0; i < credential.type.length; i++) {
-      if(credential.type[i].indexOf('urn:') === 0) {
-        type = credential.type[i];
-        break;
-      }
-    }
-    return type;
+    var i = _.intersectionWith(
+      credential.type, ['br:', 'urn:'], function(a, b) {
+        return a.indexOf(b) === 0;
+      });
+    return i.length === 1 ? i[0] : null;
   }
 }
 
