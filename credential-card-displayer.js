@@ -60,10 +60,9 @@ function Ctrl($q, brCardDisplayerService) {
   };
 
   function getType(credential) {
-    var i = _.intersectionWith(
-      credential.type, ['br:', 'urn:'], function(a, b) {
-        return a.indexOf(b) === 0;
-      });
+    var i = credential.type.filter(function(t) {
+      return t.indexOf('urn:') === 0;
+    });
     return i.length === 1 ? i[0] : null;
   }
 }
