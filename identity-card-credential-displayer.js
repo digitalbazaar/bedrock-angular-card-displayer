@@ -1,5 +1,5 @@
 /*!
- * Loyalty Card Displayer
+ * Identity Card Offer Displayer
  *
  * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
  */
@@ -9,7 +9,7 @@ define(['angular', 'jsonld'], function(angular, jsonld) {
 'use strict';
 
 function register(module) {
-  module.component('brLoyaltyCardCredentialDisplayer', {
+  module.component('brIdentityCardCredentialDisplayer', {
     bindings: {
       model: '<brModel',
       library: '<?brLibrary',
@@ -18,32 +18,100 @@ function register(module) {
     controller: Ctrl,
     templateUrl:
       requirejs.toUrl(
-        'bedrock-angular-card-displayer/loyalty-card-credential-displayer.html')
+        'bedrock-angular-card-displayer/identity-card-credential-displayer.html')
   });
 }
 
 var DISPLAY_CONTEXT = [
   'https://w3id.org/identity/v1',
   'https://w3id.org/credentials/v1',
-  'https://w3id.org/documents/v1'];
+  'https://w3id.org/documents/v1',
+  {"issuee": {
+      "@id": "https://w3id.org/documents#issuee", "@type": "@id"
+    },
+    "status": {
+      "@id": "https://w3id.org/documents#status"
+    },
+    "picture": {
+      "@id": "https://w3id.org/documents#picture", "@type": "@id"
+    },
+    "birthdate": {
+      "@id": "https://w3id.org/documents#birthdate", "@type": "xsd:dateTime"
+    },
+    "firstname": {
+      "@id": "https://w3id.org/documents#firstname"
+    },
+    "lastname": {
+      "@id": "https://w3id.org/documents#lastname"
+    },
+    "middleInitial": {
+      "@id": "https://w3id.org/documents#middleInitial"
+    },
+    "idNumber": {
+      "@id": "https://w3id.org/documents#idNumber"
+    }
+  }];
 
 var DISPLAY_FRAME = {
   '@context': DISPLAY_CONTEXT,
   claim: {}
 };
-
 /* @ngInject */
-function Ctrl($scope, brCardDisplayerService) {
+function Ctrl($scope, $filter, brCardDisplayerService) {
   var self = this;
-  // styles exposed to view
-  self.cardStyle = {};
+
+  self.cardStyle = {
+    width: '300px'
+  };
+  self.pictureStyle = {
+    position: 'absolute',
+    right: '15px',
+    top: '60px',
+    height: '75px'
+  };
+  self.barcodeStyle = {
+    position: 'absolute',
+    left: '18px',
+    top: '128px',
+    height: '30px',
+    width: '150px'
+  };
+  self.statusStyle = {
+    position: 'absolute',
+    top: '40px',
+    right: '22px',
+    fontSize: '5em'
+  };
+  self.dateStyle = {
+    position: 'absolute',
+    top: '140px',
+    right: '26px',
+    fontSize: '4.5em'
+  };
+  self.idNumberStyle = {
+    position: 'absolute',
+    top: '110px',
+    left: '18px',
+    fontSize: '5em'
+  };
+  self.firstnameStyle = {
+    position: 'absolute',
+    top: '96px',
+    left: '18px',
+    fontSize: '5em'
+  };
+  self.lastnameStyle = {
+    position: 'absolute',
+    top: '82px',
+    left: '18px',
+    fontSize: '5em'
+  };
   self.containerStyle = {};
   self.containerClass = {
     'br-card-id-1-border': true,
     'br-card-id-1-radial-gradient': true
   };
   self.textStyle = {};
-
   // internal vars for tracking style changes
   var style = {};
   var styleOptions = {
@@ -52,10 +120,6 @@ function Ctrl($scope, brCardDisplayerService) {
     }
   };
 
-  // TODO: The code below moves background styles from the main card style
-  // to the container to get certain effects. This is not intuitive and
-  // this code needs some cleanup and general structure for better applying
-  // options like gradients, etc.
 
   self.$onChanges = function(changes) {
     if(changes.model && changes.model.currentValue) {
@@ -75,9 +139,13 @@ function Ctrl($scope, brCardDisplayerService) {
           }
           return credential;
         }).then(function(credential) {
-          console.log('loyalty card');
-          console.log(credential);
           self.credential = credential;
+          self.documentType = self.credential.claim.document.documentType;
+          self.issuee = self.credential.issuee;
+          JsBarcode('.barcode', computedId().toString(), {
+            format: 'codabar',
+            displayValue: false
+          });
         }).catch(function(err) {
           // TODO: better error handling
           console.error(err);
@@ -101,6 +169,29 @@ function Ctrl($scope, brCardDisplayerService) {
       updateTextStyle();
     }
   };
+
+
+
+  self.formatDate = function(date) {
+    var dateFilter = $filter('date');
+    return dateFilter(date, 'MM/dd/yy');
+  };
+
+  self.combineObjects = function(src1, src2) {
+    var tmp = {};
+    for(var key in src1) {
+      if(src1.hasOwnProperty(key)) {
+        tmp[key] = src1[key];
+      }
+    }
+    for(var key in src2) {
+      if(src2.hasOwnProperty(key)) {
+        tmp[key] = src2[key];
+      }
+    }
+    return tmp;
+  };
+
 
   function getDocumentType(credential) {
     var documentTypeId = getDocumentTypeId(
@@ -161,6 +252,8 @@ function Ctrl($scope, brCardDisplayerService) {
   }
 
   function moveBackgroundEffectsToContainer() {
+    console.log('update background effects')
+    console.log(self)
     self.containerStyle = {};
     if('background-image' in self.cardStyle) {
       self.containerStyle['background-image'] =
@@ -176,11 +269,12 @@ function Ctrl($scope, brCardDisplayerService) {
   }
 
   function updateTextStyle() {
-    var hex =
-      self.credential.claim.document.documentType.documentForegroundColor;
+    console.log('update text')
+    console.log(self)
+    var hex = self.documentType.documentForegroundColor;
     var rgb = brCardDisplayerService.hexToRgb(hex);
     var rgbaLight = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.25)';
-    var rgbaDark = 'rgba(0,0,0,0.25)';
+    var rgbaDark = 'rgba(0,0,0,0.5)';
     self.textStyle = {
       color: hex,
       'text-shadow': [
@@ -190,6 +284,12 @@ function Ctrl($scope, brCardDisplayerService) {
         '0px 1px 1px ' + rgbaDark].join(',')
     };
   }
+
+  function computedId() {
+    var id = self.issuee.idNumber;
+    return id === '' ? 0 : id;
+  }
+
 }
 
 return register;
