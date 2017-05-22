@@ -75,8 +75,6 @@ function Ctrl($scope, brCardDisplayerService) {
           }
           return credential;
         }).then(function(credential) {
-          console.log('loyalty card');
-          console.log(credential);
           self.credential = credential;
         }).catch(function(err) {
           // TODO: better error handling
