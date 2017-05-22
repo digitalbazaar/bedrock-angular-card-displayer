@@ -25,32 +25,8 @@ function register(module) {
 var DISPLAY_CONTEXT = [
   'https://w3id.org/identity/v1',
   'https://w3id.org/credentials/v1',
-  'https://w3id.org/documents/v1',
-  {"issuee": {
-      "@id": "https://w3id.org/documents#issuee", "@type": "@id"
-    },
-    "status": {
-      "@id": "https://w3id.org/documents#status"
-    },
-    "picture": {
-      "@id": "https://w3id.org/documents#picture", "@type": "@id"
-    },
-    "birthdate": {
-      "@id": "https://w3id.org/documents#birthdate", "@type": "xsd:dateTime"
-    },
-    "firstname": {
-      "@id": "https://w3id.org/documents#firstname"
-    },
-    "lastname": {
-      "@id": "https://w3id.org/documents#lastname"
-    },
-    "middleInitial": {
-      "@id": "https://w3id.org/documents#middleInitial"
-    },
-    "idNumber": {
-      "@id": "https://w3id.org/documents#idNumber"
-    }
-  }];
+  'https://w3id.org/documents/v1'
+];
 
 var DISPLAY_FRAME = {
   '@context': DISPLAY_CONTEXT,
@@ -59,7 +35,6 @@ var DISPLAY_FRAME = {
 /* @ngInject */
 function Ctrl($scope, $filter, brCardDisplayerService) {
   var self = this;
-
   self.cardStyle = {
     width: '300px'
   };
@@ -76,7 +51,7 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     height: '30px',
     width: '150px'
   };
-  self.statusStyle = {
+  self.jobTitleStyle = {
     position: 'absolute',
     top: '40px',
     right: '22px',
@@ -94,13 +69,13 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     left: '18px',
     fontSize: '5em'
   };
-  self.firstnameStyle = {
+  self.bottomNameStyle = {
     position: 'absolute',
     top: '96px',
     left: '18px',
     fontSize: '5em'
   };
-  self.lastnameStyle = {
+  self.topNameStyle = {
     position: 'absolute',
     top: '82px',
     left: '18px',
@@ -112,6 +87,8 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     'br-card-id-1-radial-gradient': true
   };
   self.textStyle = {};
+  self.documentType = {};
+  self.documentType.name = '';
   // internal vars for tracking style changes
   var style = {};
   var styleOptions = {
@@ -119,7 +96,6 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
       radialGradient: false
     }
   };
-
 
   self.$onChanges = function(changes) {
     if(changes.model && changes.model.currentValue) {
@@ -141,8 +117,7 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
         }).then(function(credential) {
           self.credential = credential;
           self.documentType = self.credential.claim.document.documentType;
-          self.issuee = self.credential.issuee;
-          JsBarcode('.barcode', computedId().toString(), {
+          JsBarcode('.barcode', getIdentifier(), {
             format: 'codabar',
             displayValue: false
           });
@@ -170,14 +145,12 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     }
   };
 
-
-
   self.formatDate = function(date) {
     var dateFilter = $filter('date');
     return dateFilter(date, 'MM/dd/yy');
   };
 
-  self.combineObjects = function(src1, src2) {
+  self.combine = function(src1, src2) {
     var tmp = {};
     for(var key in src1) {
       if(src1.hasOwnProperty(key)) {
@@ -192,6 +165,15 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     return tmp;
   };
 
+  self.topName = function() {
+    var str = self.documentType.name;
+    return str.substring(str.lastIndexOf(" ") + 1, str.length).trim();
+  };
+
+  self.bottomName = function() {
+    var str = self.documentType.name;
+    return str.substring(0, str.lastIndexOf(" ") + 1).trim();
+  };
 
   function getDocumentType(credential) {
     var documentTypeId = getDocumentTypeId(
@@ -252,8 +234,6 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
   }
 
   function moveBackgroundEffectsToContainer() {
-    console.log('update background effects')
-    console.log(self)
     self.containerStyle = {};
     if('background-image' in self.cardStyle) {
       self.containerStyle['background-image'] =
@@ -269,8 +249,7 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
   }
 
   function updateTextStyle() {
-    console.log('update text')
-    console.log(self)
+    console.log(self);
     var hex = self.documentType.documentForegroundColor;
     var rgb = brCardDisplayerService.hexToRgb(hex);
     var rgbaLight = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.25)';
@@ -285,9 +264,8 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     };
   }
 
-  function computedId() {
-    var id = self.issuee.idNumber;
-    return id === '' ? 0 : id;
+  function getIdentifier() {
+    return self.documentType.identifier ? self.documentType.identifier : '0';
   }
 
 }
