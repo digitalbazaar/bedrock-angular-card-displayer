@@ -33,7 +33,7 @@ var DISPLAY_FRAME = {
   claim: {}
 };
 /* @ngInject */
-function Ctrl($scope, $filter, brCardDisplayerService) {
+function Ctrl($scope, $filter, $q, brCardDisplayerService) {
   var self = this;
 
   self.cardStyle = {
@@ -110,7 +110,7 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
 
   self.$onChanges = function(changes) {
     if(changes.model && changes.model.currentValue) {
-      jsonld.promises.frame(
+      $q.resolve(jsonld.promises.frame(
         changes.model.currentValue.credential, DISPLAY_FRAME)
         .then(function(framed) {
           var credential = (framed['@graph'] || [])[0] || {};
@@ -142,8 +142,8 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
           angular.extend(self.cardStyle, style);
           moveBackgroundEffectsToContainer();
           updateTextStyle();
-          $scope.$apply();
-        });
+        })
+      );
     }
     if(changes.options && changes.options.currentValue.displayer &&
       typeof changes.options.currentValue.displayer.style === 'object') {
@@ -178,7 +178,7 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     }
 
     // fetch documentType by its ID
-    return jsonld.promises.compact(documentTypeId, DISPLAY_CONTEXT, {
+    return $q.resolve(jsonld.promises.compact(documentTypeId, DISPLAY_CONTEXT, {
       expandContext: {base: documentTypeId},
       base: ''
     }).then(function(documentType) {
@@ -200,7 +200,7 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
       }
 
       return credential;
-    });
+    }));
   }
 
   function getDocumentTypeId(documentType) {
@@ -244,7 +244,6 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
   }
 
   function updateTextStyle() {
-    console.log(self);
     var hex = self.documentType.documentForegroundColor;
     var rgb = brCardDisplayerService.hexToRgb(hex);
     var rgbaLight = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ', 0.25)';
