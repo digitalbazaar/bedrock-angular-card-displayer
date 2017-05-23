@@ -111,7 +111,7 @@ function Ctrl($scope, $filter, $q, brCardDisplayerService) {
   self.$onChanges = function(changes) {
     if(changes.model && changes.model.currentValue) {
       $q.resolve(jsonld.promises.frame(
-        changes.model.currentValue.credential, DISPLAY_FRAME)
+        changes.model.currentValue.credential, DISPLAY_FRAME))
         .then(function(framed) {
           var credential = (framed['@graph'] || [])[0] || {};
           if(!credential.claim || typeof credential.claim !== 'object') {
@@ -142,8 +142,7 @@ function Ctrl($scope, $filter, $q, brCardDisplayerService) {
           angular.extend(self.cardStyle, style);
           moveBackgroundEffectsToContainer();
           updateTextStyle();
-        })
-      );
+        });
     }
     if(changes.options && changes.options.currentValue.displayer &&
       typeof changes.options.currentValue.displayer.style === 'object') {
@@ -181,7 +180,7 @@ function Ctrl($scope, $filter, $q, brCardDisplayerService) {
     return $q.resolve(jsonld.promises.compact(documentTypeId, DISPLAY_CONTEXT, {
       expandContext: {base: documentTypeId},
       base: ''
-    }).then(function(documentType) {
+    })).then(function(documentType) {
       credential.claim.document.documentType = documentType;
 
       if(documentType.documentBackgroundImage) {
@@ -200,7 +199,7 @@ function Ctrl($scope, $filter, $q, brCardDisplayerService) {
       }
 
       return credential;
-    }));
+    });
   }
 
   function getDocumentTypeId(documentType) {
