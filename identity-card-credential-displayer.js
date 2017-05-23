@@ -4,7 +4,7 @@
  * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
  */
 /* global requirejs */
-define(['angular', 'jsonld'], function(angular, jsonld) {
+define(['angular', 'jsonld', 'JsBarcode'], function(angular, jsonld, JsBarcode) {
 
 'use strict';
 
@@ -35,15 +35,18 @@ var DISPLAY_FRAME = {
 /* @ngInject */
 function Ctrl($scope, $filter, brCardDisplayerService) {
   var self = this;
+
   self.cardStyle = {
     width: '300px'
   };
+
   self.pictureStyle = {
     position: 'absolute',
     right: '15px',
     top: '60px',
     height: '75px'
   };
+
   self.barcodeStyle = {
     position: 'absolute',
     left: '18px',
@@ -51,41 +54,49 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     height: '30px',
     width: '150px'
   };
+
   self.jobTitleStyle = {
     position: 'absolute',
     top: '40px',
     right: '22px',
     fontSize: '5em'
   };
+
   self.dateStyle = {
     position: 'absolute',
     top: '140px',
     right: '26px',
     fontSize: '4.5em'
   };
+
   self.idNumberStyle = {
     position: 'absolute',
     top: '110px',
     left: '18px',
     fontSize: '5em'
   };
+
   self.bottomNameStyle = {
     position: 'absolute',
     top: '96px',
     left: '18px',
     fontSize: '5em'
   };
+
   self.topNameStyle = {
     position: 'absolute',
     top: '82px',
     left: '18px',
     fontSize: '5em'
   };
+
   self.containerStyle = {};
+
   self.containerClass = {
     'br-card-id-1-border': true,
     'br-card-id-1-radial-gradient': true
   };
+
   self.textStyle = {};
   self.documentType = {};
   self.documentType.name = '';
@@ -145,24 +156,8 @@ function Ctrl($scope, $filter, brCardDisplayerService) {
     }
   };
 
-  self.formatDate = function(date) {
-    var dateFilter = $filter('date');
-    return dateFilter(date, 'MM/dd/yy');
-  };
-
   self.combine = function(src1, src2) {
-    var tmp = {};
-    for(var key in src1) {
-      if(src1.hasOwnProperty(key)) {
-        tmp[key] = src1[key];
-      }
-    }
-    for(var key in src2) {
-      if(src2.hasOwnProperty(key)) {
-        tmp[key] = src2[key];
-      }
-    }
-    return tmp;
+    return angular.extend({}, src1, src2);
   };
 
   self.topName = function() {
