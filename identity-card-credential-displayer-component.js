@@ -3,24 +3,20 @@
  *
  * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
  */
-/* global requirejs */
-define(['angular', 'jsonld', 'JsBarcode'], function(angular, jsonld, JsBarcode) {
+import angular from 'angular';
+import jsonld from 'jsonld';
+import JsBarcode from 'JsBarcode';
 
-'use strict';
-
-function register(module) {
-  module.component('brIdentityCardCredentialDisplayer', {
-    bindings: {
-      model: '<brModel',
-      library: '<?brLibrary',
-      options: '<brOptions'
-    },
-    controller: Ctrl,
-    templateUrl:
-      requirejs.toUrl(
-        'bedrock-angular-card-displayer/identity-card-credential-displayer-component.html')
-  });
-}
+export default {
+  bindings: {
+    model: '<brModel',
+    library: '<?brLibrary',
+    options: '<brOptions'
+  },
+  controller: Ctrl,
+  templateUrl: 'bedrock-angular-card-displayer/' +
+    'identity-card-credential-displayer-component.html'
+};
 
 var DISPLAY_CONTEXT = [
   'https://w3id.org/identity/v1',
@@ -138,7 +134,8 @@ function Ctrl($scope, $filter, $q, brCardDisplayerService) {
           self.credential = {};
         }).then(function() {
           self.cardStyle = brCardDisplayerService.computeCardStyle(
-            angular.merge({}, styleOptions, self.options.displayer.style));
+            angular.merge({}, styleOptions, self.options.displayer.style)
+          );
           angular.extend(self.cardStyle, style);
           moveBackgroundEffectsToContainer();
           updateTextStyle();
@@ -147,8 +144,8 @@ function Ctrl($scope, $filter, $q, brCardDisplayerService) {
     if(changes.options && changes.options.currentValue.displayer &&
       typeof changes.options.currentValue.displayer.style === 'object') {
       self.cardStyle = brCardDisplayerService.computeCardStyle(
-        angular.merge(
-          {}, styleOptions, changes.options.currentValue.displayer.style));
+        angular.merge({}, styleOptions, changes.options.currentValue.displayer
+          .style));
       angular.extend(self.cardStyle, style);
       moveBackgroundEffectsToContainer();
       updateTextStyle();
@@ -253,7 +250,8 @@ function Ctrl($scope, $filter, $q, brCardDisplayerService) {
         '-1px 0px 1px ' + rgbaLight,
         '0px -1px 1px ' + rgbaLight,
         '1px 0px 1px ' + rgbaDark,
-        '0px 1px 1px ' + rgbaDark].join(',')
+        '0px 1px 1px ' + rgbaDark
+      ].join(',')
     };
   }
 
@@ -262,7 +260,3 @@ function Ctrl($scope, $filter, $q, brCardDisplayerService) {
   }
 
 }
-
-return register;
-
-});

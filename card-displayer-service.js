@@ -1,16 +1,10 @@
 /*!
  * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
  */
-define(['angular'], function(angular) {
-
-'use strict';
-
-function register(module) {
-  module.service('brCardDisplayerService', factory);
-}
+import angular from 'angular';
 
 /* @ngInject */
-function factory() {
+export default function factory() {
   var service = {};
 
   /**
@@ -32,16 +26,17 @@ function factory() {
 
     if(type !== 'id-1') {
       throw new TypeError(
-        'Unsupported card type: "' + type + '". Supported types are: "id-1".');
+        'Unsupported card type: "' + type +
+        '". Supported types are: "id-1".');
     }
 
     if(typeof options.width === 'string') {
       var width = service.parseCssValue(options.width);
       style.width = options.width;
       // id-1 dimensions are 85.60mm x 53.98mm
-      style.height = (width.value * 53.98/85.60) + width.unit;
+      style.height = (width.value * 53.98 / 85.60) + width.unit;
       // default CSS is coded based on a 1/100 width:fontsize ratio
-      style['font-size'] = (width.value * 1/100) + width.unit;
+      style['font-size'] = (width.value * 1 / 100) + width.unit;
     }
 
     // TODO: need to be able to support different backgrounds for card header
@@ -82,7 +77,7 @@ function factory() {
         'rgba(255, 255, 255, 0.75) 0%, ' +
         'transparent 70%, ' +
         'rgba(0, 0, 0, 0.2) 90%)';
-      /*radialGradient = 'radial-gradient(' +
+      /* radialGradient = 'radial-gradient(' +
         'ellipse at center, #fff 0%, transparent 80%)';*/
     }
     if(radialGradient) {
@@ -138,7 +133,3 @@ function factory() {
 
   return service;
 }
-
-return register;
-
-});

@@ -3,21 +3,18 @@
  *
  * Copyright (c) 2016-2017 Digital Bazaar, Inc. All rights reserved.
  */
-define(['jsonld'], function(jsonld) {
+import jsonld from 'jsonld';
 
-'use strict';
-
-function register(module) {
-  module.component('brMotorVehicleCredentialDisplayer', {
-    bindings: {
-      model: '<brModel',
-      library: '<?brLibrary',
-      options: '<brOptions'
-    },
-    controller: Ctrl,
-    templateUrl: requirejs.toUrl('bedrock-angular-card-displayer/motor-vehicle-license-credential-displayer-component.html')
-  });
-}
+export default {
+  bindings: {
+    model: '<brModel',
+    library: '<?brLibrary',
+    options: '<brOptions'
+  },
+  controller: Ctrl,
+  templateUrl: 'bedrock-angular-card-displayer/' +
+    'motor-vehicle-license-credential-displayer-component.html'
+};
 
 var DISPLAY_CONTEXT = 'https://w3id.org/identity/v1';
 
@@ -58,7 +55,3 @@ function Ctrl($scope, brCardDisplayerService) {
     return id;
   };
 }
-
-return register;
-
-});
