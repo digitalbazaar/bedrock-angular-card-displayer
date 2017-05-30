@@ -15,10 +15,7 @@ function register(module) {
       options: '<brOptions'
     },
     controller: Ctrl,
-    templateUrl:
-      requirejs.toUrl(
-        'bedrock-angular-card-displayer/' +
-          'motor-vehicle-license-credential-displayer.html')
+    templateUrl: requirejs.toUrl('bedrock-angular-card-displayer/motor-vehicle-license-credential-displayer-component.html')
   });
 }
 

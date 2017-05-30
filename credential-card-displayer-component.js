@@ -17,7 +17,7 @@ function register(module) {
     controller: Ctrl,
     templateUrl:
       requirejs.toUrl(
-        'bedrock-angular-card-displayer/credential-card-displayer.html')
+        'bedrock-angular-card-displayer/credential-card-displayer-component.html')
   });
 }
 
