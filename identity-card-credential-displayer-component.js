@@ -5,7 +5,7 @@
  */
 import angular from 'angular';
 import jsonld from 'jsonld';
-import JsBarcode from 'JsBarcode';
+import JsBarcode from 'jsbarcode';
 
 export default {
   bindings: {

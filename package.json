@@ -10,7 +10,14 @@
     "jsonld": "^0.4.12"
   },
   "bedrock": {
-    "browserDependencies": "all"
+    "browserDependencies": "all",
+    "systemjs": {
+      "packages": {
+        "jsbarcode": {
+          "main": "dist/JsBarcode.all.js"
+        }
+      }
+    }
   },
   "repository": {
     "type": "git",
