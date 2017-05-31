@@ -13,7 +13,7 @@ export default {
   },
   controller: Ctrl,
   templateUrl: 'bedrock-angular-card-displayer/' +
-    'motor-vehicle-license-credential-displayer-component.html'
+    'motor-vehicle-credential-displayer-component.html'
 };
 
 var DISPLAY_CONTEXT = 'https://w3id.org/identity/v1';

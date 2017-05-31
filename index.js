@@ -11,8 +11,8 @@ import LoyaltyCardCredentialDisplayerComponent from
   './loyalty-card-credential-displayer-component.js';
 import IdentityCardCredentialDisplayerComponent from
   './identity-card-credential-displayer-component.js';
-import MotorVehicleLicenseCredentialDisplayerComponent from
-  './motor-vehicle-license-credential-displayer-component.js';
+import MotorVehicleCredentialDisplayerComponent from
+  './motor-vehicle-credential-displayer-component.js';
 
 var module = angular.module('bedrock.card-displayer', []);
 
@@ -22,5 +22,5 @@ module.component('brLoyaltyCardCredentialDisplayer',
   LoyaltyCardCredentialDisplayerComponent);
 module.component('brIdentityCardCredentialDisplayer',
   IdentityCardCredentialDisplayerComponent);
-module.component('brMotorVehicleLicenseCredentialDisplayer',
-  MotorVehicleLicenseCredentialDisplayerComponent);
+module.component('brMotorVehicleCredentialDisplayer',
+  MotorVehicleCredentialDisplayerComponent);
