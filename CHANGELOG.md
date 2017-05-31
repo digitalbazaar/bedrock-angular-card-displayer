@@ -1,5 +1,10 @@
 # bedrock-angular-card-displayer
 
+## 2.0.3 - 2017-05-31
+
+### Fixed
+- Fix margin to match box shadow on cards.
+
 ## 2.0.2 - 2017-05-31
 
 ### Fixed
