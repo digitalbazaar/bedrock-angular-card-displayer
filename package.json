@@ -5,7 +5,7 @@
   "main": "index.js",
   "less": "main.less",
   "dependencies": {
-    "angular": "~1.6.4",
+    "angular": "~1.8.0",
     "jsbarcode": "^3.8.0",
     "jsonld": "^0.4.12"
   },
